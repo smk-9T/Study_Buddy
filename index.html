@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StudyBuddy AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="header">📚 StudyBuddy AI</div>
+
+    <div class="messages" id="messages"></div>
+
+    <div class="input-area">
+        <input id="msg" placeholder="Ask your question..." />
+        <button onclick="send()">Send</button>
+    </div>
+</div>
+
+<script>
+function send() {
+    let msg = document.getElementById("msg").value;
+
+    fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: msg})
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("messages").innerHTML += 
+        "<div class='message user'><b>You:</b> " + msg + "</div>" +
+        "<div class='message bot'><b>Bot:</b> " + data.reply + "</div>";
+    });
+
+    document.getElementById("msg").value = "";
+}
+</script>
+
+</body>
+</html>
